@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import emailjs from "@emailjs/browser";
 
@@ -110,11 +110,44 @@ const ContactButton = styled.input`
   font-weight: 600;
 `;
 
+const ErrorMessage = styled.div`
+  color: red;
+  font-size: 14px;
+`;
+
 const Contact = () => {
   const form = useRef();
+  const [errors, setErrors] = useState({});
+
+  const validateForm = () => {
+    const formElements = form.current.elements;
+    const newErrors = {};
+
+    if (!formElements.from_email.value) {
+      newErrors.from_email = "Email is required";
+    }
+    if (!formElements.from_name.value) {
+      newErrors.from_name = "Name is required";
+    }
+    if (!formElements.subject.value) {
+      newErrors.subject = "Subject is required";
+    }
+    if (!formElements.message.value) {
+      newErrors.message = "Message is required";
+    }
+
+    return newErrors;
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const formErrors = validateForm();
+
+    if (Object.keys(formErrors).length > 0) {
+      setErrors(formErrors);
+      return;
+    }
+
     emailjs
       .sendForm(
         "service_5ctg2lc", // Service ID
@@ -127,6 +160,7 @@ const Contact = () => {
           console.log(result.text);
           alert("Message Sent");
           form.current.reset(); // Reset the form fields
+          setErrors({});
         },
         (error) => {
           console.log(error.text);
@@ -142,10 +176,14 @@ const Contact = () => {
         <Desc>Feel free to reach out to me for any questions or opportunities!</Desc>
         <ContactForm ref={form} onSubmit={handleSubmit}>
           <ContactTitle>Email Me 🚀</ContactTitle>
-          <ContactInput placeholder="Your Email" name="from_email" />
-          <ContactInput placeholder="Your Name" name="from_name" />
-          <ContactInput placeholder="Subject" name="subject" />
-          <ContactInputMessage placeholder="Message" name="message" rows={4} />
+          <ContactInput placeholder="Your Email" name="from_email" required />
+          {errors.from_email && <ErrorMessage>{errors.from_email}</ErrorMessage>}
+          <ContactInput placeholder="Your Name" name="from_name" required />
+          {errors.from_name && <ErrorMessage>{errors.from_name}</ErrorMessage>}
+          <ContactInput placeholder="Subject" name="subject" required />
+          {errors.subject && <ErrorMessage>{errors.subject}</ErrorMessage>}
+          <ContactInputMessage placeholder="Message" name="message" rows={4} required />
+          {errors.message && <ErrorMessage>{errors.message}</ErrorMessage>}
           <ContactButton type="submit" value="Send" />
         </ContactForm>
       </Wrapper>
