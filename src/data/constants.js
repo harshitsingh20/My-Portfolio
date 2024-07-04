@@ -10,7 +10,7 @@ export const Bio = {
     "I am a motivated and versatile individual with over 2+ year's of experience, always eager to take on new challenges. With a passion for learning, I am dedicated to delivering high-quality results. I approach every task with a positive attitude and a growth mindset, aiming to make a meaningful contribution and achieve great things.",
   github: "https://github.com/harshitsingh20",
   resume:
-    "https://drive.google.com/file/d/1WVGjU4uOW8lFAwr2Wc5bZwqJMW2NoR8v/view?usp=sharing",
+    "https://drive.google.com/file/d/1kJ-JcBS3vTzeXgO16hCeyewQz9rcQV_q/view?usp=drive_link",
   linkedin: "https://www.linkedin.com/in/harshit-singh-as/",
   twitter: "https://x.com/HarshitSingh422",
   insta: "https://www.instagram.com/__thakur_harshit_singh__/",
